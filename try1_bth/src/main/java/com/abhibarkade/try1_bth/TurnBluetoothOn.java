@@ -1,9 +1,13 @@
 package com.abhibarkade.try1_bth;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Intent;
+
+import java.nio.channels.AcceptPendingException;
 
 public class TurnBluetoothOn {
 
@@ -22,16 +26,15 @@ public class TurnBluetoothOn {
         return bluetoothAdapter == null;
     }
 
-    public Intent turnOn() {
+    @SuppressLint("MissingPermission")
+    public void turnOn() {
         BluetoothManager bluetoothManager = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             bluetoothManager = application.getSystemService(BluetoothManager.class);
         }
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-        Intent intent = null;
-        if (!bluetoothAdapter.isEnabled())
-            intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 
-        return intent;
+        Activity activity= (Activity) application.getApplicationContext();
+        activity.startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),101);
     }
 }
